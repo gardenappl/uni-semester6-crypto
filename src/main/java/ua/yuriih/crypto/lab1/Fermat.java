@@ -19,7 +19,7 @@ public class Fermat {
      */
     public static boolean isProbablePrime(BigInteger n, int steps) {
         if (n.compareTo(THREE) <= 0) {
-            return n.compareTo(BigInteger.ONE) > 0;
+            return n.compareTo(BigInteger.TWO) >= 0;
         }
 
         BigInteger nMinusOne = n.subtract(BigInteger.ONE);

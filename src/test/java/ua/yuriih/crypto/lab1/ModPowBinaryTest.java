@@ -12,14 +12,15 @@ public class ModPowBinaryTest {
     @Test
     void modPow_negativePower() {
         for (int i = 1; i < TEST_MOD.intValue(); i++) {
-            assertEquals(ModPowBinary.modPow(
-                    BigInteger.valueOf(i), BigInteger.valueOf(-1), TEST_MOD
-            ), BigInteger.valueOf(i).modInverse(TEST_MOD));
+            assertEquals(
+                    BigInteger.valueOf(i).modInverse(TEST_MOD),
+                    ModPowBinary.modPow(BigInteger.valueOf(i), BigInteger.valueOf(-1), TEST_MOD)
+            );
 
-            assertEquals(ModPowBinary.modPow(
-                    BigInteger.valueOf(i), BigInteger.valueOf(-2), TEST_MOD
-            ), BigInteger.valueOf(i).modInverse(TEST_MOD)
-                    .modPow(BigInteger.TWO, TEST_MOD));
+            assertEquals(
+                    BigInteger.valueOf(i).modInverse(TEST_MOD).modPow(BigInteger.TWO, TEST_MOD),
+                    ModPowBinary.modPow(BigInteger.valueOf(i), BigInteger.valueOf(-2), TEST_MOD)
+            );
         }
     }
 
@@ -31,12 +32,13 @@ public class ModPowBinaryTest {
     }
 
     @Test
-    void modPow_test() {
+    void modPow() {
         for (int i = -10; i < 10; i++) {
-            for (int exponent = 2; exponent < 10; exponent++) {
-                assertEquals(ModPowBinary.modPow(
-                        BigInteger.valueOf(i), BigInteger.valueOf(exponent), TEST_MOD
-                ), BigInteger.valueOf(i).modPow(BigInteger.valueOf(exponent), TEST_MOD));
+            for (int p = 0; p < 10; p++) {
+                assertEquals(
+                        BigInteger.valueOf(i).modPow(BigInteger.valueOf(p), TEST_MOD),
+                        ModPowBinary.modPow(BigInteger.valueOf(i), BigInteger.valueOf(p), TEST_MOD)
+                );
             }
         }
     }
