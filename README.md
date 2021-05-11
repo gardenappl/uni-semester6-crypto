@@ -8,8 +8,8 @@
 
 ## Lab 2 (symmetric ciphers)
 
-DES, CFB
+Cobra
 
 ## Lab 3 (hash functions and asymmetric ciphers)
 
-MD4
+N-hash
