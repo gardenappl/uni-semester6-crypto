@@ -3,6 +3,7 @@ package ua.yuriih.crypto.lab1;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,5 +42,17 @@ public class ModPowBinaryTest {
                 );
             }
         }
+    }
+
+    @Test
+    void modPow_large() {
+        Random rng = new Random();
+        BigInteger i = new BigInteger(1024, rng);
+        BigInteger p = new BigInteger(1024, rng);
+        BigInteger mod = new BigInteger(2048, rng);
+        assertEquals(
+                i.modPow(p, mod),
+                ModPowBinary.modPow(i, p, mod)
+        );
     }
 }

@@ -100,6 +100,10 @@ public class Montgomery {
         one = new Integer(r.mod(n));
     }
 
+    public BigInteger getMod() {
+        return n;
+    }
+
     /**
      * Montgomery reduction
      * @param t T, integer in the range [0, RN - 1]

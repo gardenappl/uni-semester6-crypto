@@ -3,6 +3,7 @@ package ua.yuriih.crypto.lab1;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,6 +37,18 @@ class ProbablyPrimeTest {
         for (long testComposite : TEST_COMPOSITES) {
             assertFalse(Fermat.isProbablePrime(BigInteger.valueOf(testComposite), TEST_STEPS));
             assertFalse(MillerRabin.isProbablePrime(BigInteger.valueOf(testComposite), TEST_STEPS));
+        }
+    }
+
+    @Test
+    void isProbablePrime_matchesStandardImpl() {
+        final Random rng = new Random();
+        for (int i = 0; i < 100; i++) {
+            BigInteger n = new BigInteger(1024, rng);
+            assertEquals(
+                    n.isProbablePrime(TEST_STEPS),
+                    Fermat.isProbablePrime(n, TEST_STEPS)
+            );
         }
     }
 }
