@@ -1,11 +1,12 @@
 package ua.yuriih.crypto.lab1;
 
+import ua.yuriih.crypto.MathUtils;
+
 import java.math.BigInteger;
 import java.util.Random;
 
 public class Fermat {
     private static final Random RNG = new Random();
-    private static final BigInteger THREE = BigInteger.valueOf(3);
 
     /**
      * Repeat k times:
@@ -18,7 +19,7 @@ public class Fermat {
      * @return true if "probably prime", false if definitely composite
      */
     public static boolean isProbablePrime(BigInteger n, int steps) {
-        if (n.compareTo(THREE) <= 0) {
+        if (n.compareTo(MathUtils.THREE) <= 0) {
             return n.compareTo(BigInteger.TWO) >= 0;
         }
 

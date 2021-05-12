@@ -1,5 +1,7 @@
 package ua.yuriih.crypto.lab2;
 
+import ua.yuriih.crypto.MathUtils;
+
 public final class Cobra24_128 {
 
     private static final int BLOCK_SIZE = 4;
@@ -54,7 +56,7 @@ public final class Cobra24_128 {
             //step 7: circular right shift integers in key, goto step 2.
             if (repeat == 0) {
                 for (i = 0; i < key.length; i++)
-                    key[i] = MathUtils.circularRightShift1(key[i]);
+                    key[i] = Integer.rotateRight(key[i], 1);
             }
         }
         //Step 8 (repeat steps 3..6 for P, S, W)
@@ -88,9 +90,9 @@ public final class Cobra24_128 {
         int[] nextResult = new int[BLOCK_SIZE];
         for (int i = 0; i < ROUNDS; i++) {
             nextResult[0] = result[3];
-            nextResult[1] = MathUtils.circularRightShift1(result[0] ^ f(result[1], P[i][0]));
-            nextResult[2] = MathUtils.circularRightShift1(result[1] ^ f(result[2], P[i][1]));
-            nextResult[3] = MathUtils.circularRightShift1(result[2] ^ f(result[3], P[i][2]));
+            nextResult[1] = Integer.rotateRight(result[0] ^ f(result[1], P[i][0]), 1);
+            nextResult[2] = Integer.rotateRight(result[1] ^ f(result[2], P[i][1]), 1);
+            nextResult[3] = Integer.rotateRight(result[2] ^ f(result[3], P[i][2]), 1);
 
             System.arraycopy(nextResult, 0, result, 0, BLOCK_SIZE);
         }
@@ -113,9 +115,9 @@ public final class Cobra24_128 {
         int[] nextResult = new int[BLOCK_SIZE];
         for (int i = ROUNDS - 1; i >= 0; i--) {
             nextResult[3] = result[0];
-            nextResult[2] = MathUtils.circularLeftShift1(result[3]) ^ f(nextResult[3], P[i][2]);
-            nextResult[1] = MathUtils.circularLeftShift1(result[2]) ^ f(nextResult[2], P[i][1]);
-            nextResult[0] = MathUtils.circularLeftShift1(result[1]) ^ f(nextResult[1], P[i][0]);
+            nextResult[2] = Integer.rotateLeft(result[3], 1) ^ f(nextResult[3], P[i][2]);
+            nextResult[1] = Integer.rotateLeft(result[2], 1) ^ f(nextResult[2], P[i][1]);
+            nextResult[0] = Integer.rotateLeft(result[1], 1) ^ f(nextResult[1], P[i][0]);
 
             System.arraycopy(nextResult, 0, result, 0, BLOCK_SIZE);
         }

@@ -1,6 +1,7 @@
 package ua.yuriih.crypto.lab1;
 
 import org.junit.jupiter.api.Test;
+import ua.yuriih.crypto.MathUtils;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -57,11 +58,10 @@ public class MontgomeryTest {
     @Test
     public void montgomery_large() {
         final Random rng = new Random();
-        final BigInteger THREE = BigInteger.valueOf(3);
 
         for (int i = 0; i < 100; i++) {
             BigInteger mod = new BigInteger(1024, rng);
-            if (!mod.testBit(0) || mod.compareTo(THREE) < 0) {
+            if (!mod.testBit(0) || mod.compareTo(MathUtils.THREE) < 0) {
                 i--;
                 continue;
             }

@@ -1,11 +1,12 @@
 package ua.yuriih.crypto.lab1;
 
+import ua.yuriih.crypto.MathUtils;
+
 import java.math.BigInteger;
 import java.util.Random;
 
 public class MillerRabin {
     private static final Random RNG = new Random();
-    private static final BigInteger THREE = BigInteger.valueOf(3);
 
     /**
      * For an odd integer n > 2, let's write n as 2^s * d + 1 where d is odd and s, d > 0.
@@ -19,7 +20,7 @@ public class MillerRabin {
      * @return true if "probably prime", false if definitely composite
      */
     public static boolean isProbablePrime(BigInteger n, int steps) {
-        if (n.compareTo(THREE) <= 0) {
+        if (n.compareTo(MathUtils.THREE) <= 0) {
             return n.compareTo(BigInteger.TWO) >= 0;
         }
 
