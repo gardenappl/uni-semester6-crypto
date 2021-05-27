@@ -6,14 +6,16 @@ public class Montgomery {
     /**
      * Wrapper for BigInteger in Montgomery form (aR mod N)
      */
-    public class Integer {
+    public static class Integer {
         private final BigInteger t;
+        private final Montgomery montField;
 
         /**
          * @param t in the range [0; N)
          */
-        private Integer(BigInteger t) {
+        private Integer(BigInteger t, Montgomery montField) {
             this.t = t;
+            this.montField = montField;
         }
 
         @Override
@@ -21,22 +23,36 @@ public class Montgomery {
             return t.toString();
         }
 
+        private static void assertSameModuli(Integer num1, Integer num2) {
+            if (!num1.montField.n.equals(num2.montField.n))
+                throw new IllegalArgumentException("Moduli not equal: " + num1 + " and " + num2);
+        }
+
         public Integer add(Integer num2) {
+            assertSameModuli(this, num2);
+
             BigInteger sum = t.add(num2.t);
-            if (sum.compareTo(n) >= 0)
-                sum = sum.subtract(n);
-            return new Integer(sum);
+            if (sum.compareTo(montField.n) >= 0)
+                sum = sum.subtract(montField.n);
+            return new Integer(sum, montField);
         }
 
         public Integer subtract(Integer num2) {
+            assertSameModuli(this, num2);
+
+            if (!montField.n.equals(num2.montField.n))
+                throw new IllegalArgumentException("Moduli not equal");
+
             BigInteger diff = t.subtract(num2.t);
             if (diff.compareTo(BigInteger.ZERO) < 0)
-                diff = n.add(diff);
-            return new Integer(diff);
+                diff = montField.n.add(diff);
+            return new Integer(diff, montField);
         }
 
         public Integer multiply(Integer num2) {
-            return new Integer(redc(t.multiply(num2.t)));
+            assertSameModuli(this, num2);
+
+            return new Integer(montField.redc(t.multiply(num2.t)), montField);
         }
 
         /**
@@ -46,7 +62,7 @@ public class Montgomery {
             if (exponent.compareTo(BigInteger.ZERO) < 0)
                 throw new UnsupportedOperationException("Exponent can't be negative");
 
-            Integer product = one;
+            Integer product = montField.one;
             Integer base = this;
             for (int i = 0; i < exponent.bitLength(); i++) {
                 if (exponent.testBit(i))
@@ -57,7 +73,7 @@ public class Montgomery {
         }
 
         public BigInteger fromMontgomery() {
-            return redc(t);
+            return montField.redc(t);
         }
     }
 
@@ -96,8 +112,8 @@ public class Montgomery {
         r = BigInteger.ONE.shiftLeft(modulus.bitLength());
         rBitmask = r.subtract(BigInteger.ONE);
         n = modulus;
-        nPrime = n.modInverse(r).negate().mod(r);
-        one = new Integer(r.mod(n));
+        nPrime = r.subtract(n.modInverse(r));
+        one = new Integer(r.mod(n), this);
     }
 
     public BigInteger getMod() {
@@ -122,6 +138,6 @@ public class Montgomery {
     }
 
     public Integer toMontgomery(BigInteger t) {
-        return new Integer(redc(t.mod(n).multiply(r.modPow(BigInteger.TWO, n))));
+        return new Integer(redc(t.mod(n).multiply(r.modPow(BigInteger.TWO, n))), this);
     }
 }
