@@ -11,7 +11,7 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 class NHashTest {
-    private static final int TESTS_NUM = 1000;
+    private static final int TESTS_NUM = 5000;
     private static final Random RNG = new Random();
 
     @Test
@@ -21,12 +21,9 @@ class NHashTest {
             int size = (50 + RNG.nextInt(50)) * 16;
             byte[] data = new byte[size];
             RNG.nextBytes(data);
-//            System.err.println("----");
-//            System.err.println(Arrays.toString(data));
 
             ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
             knownHashes[test] = NHash.hash(inputStream);
-//            System.err.println(Arrays.toString(knownHashes[test]));
 
             for (int pastTest = 0; pastTest < test; pastTest++)
                 assertFalse(Arrays.equals(knownHashes[pastTest], knownHashes[test]));

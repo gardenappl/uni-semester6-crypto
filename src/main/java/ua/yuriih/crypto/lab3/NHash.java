@@ -2,12 +2,8 @@ package ua.yuriih.crypto.lab3;
 
 import ua.yuriih.crypto.MathUtils;
 
-import java.io.DataInput;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 
 public final class NHash {
     private static final int[] v = new int[] {
