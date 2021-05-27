@@ -24,12 +24,13 @@ public class ExtendedEuclidian {
      * @return Bezout coefficients and GCD
      */
     public static Result extendedGcd(BigInteger x, BigInteger y) {
-        boolean flippedInputs = false;
-        if (x.compareTo(y) > 0) {
-            flippedInputs = true;
-            BigInteger temp = y;
-            y = x;
-            x = temp;
+        if (x.compareTo(y) < 0) {
+            Result flippedResult = extendedGcd(y, x);
+            return new Result(
+                    flippedResult.coefficientY,
+                    flippedResult.coefficientX,
+                    flippedResult.gcd
+            );
         }
         BigInteger s = BigInteger.ZERO;
         BigInteger sOld = BigInteger.ONE;
@@ -61,9 +62,6 @@ public class ExtendedEuclidian {
             gcd = gcd.negate();
         }
 
-        if (!flippedInputs)
-            return new Result(coefficientX, coefficientY, gcd);
-        else
-            return new Result(coefficientY, coefficientX, gcd);
+        return new Result(coefficientX, coefficientY, gcd);
     }
 }
