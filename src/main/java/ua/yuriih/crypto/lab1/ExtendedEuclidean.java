@@ -2,7 +2,7 @@ package ua.yuriih.crypto.lab1;
 
 import java.math.BigInteger;
 
-public class ExtendedEuclidian {
+public class ExtendedEuclidean {
     public static class Result {
         public final BigInteger gcd;
         // Bezout coefficients

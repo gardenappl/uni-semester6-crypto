@@ -7,13 +7,13 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ExtendedEuclidianTest {
+class ExtendedEuclideanTest {
 
     @Test
     void extendedGcd_small() {
         for (BigInteger x = BigInteger.valueOf(-50); x.longValue() < 50; x = x.add(BigInteger.ONE)) {
             for (BigInteger y = BigInteger.valueOf(-50); y.longValue() < 50; y = y.add(BigInteger.ONE)) {
-                ExtendedEuclidian.Result result = ExtendedEuclidian.extendedGcd(x, y);
+                ExtendedEuclidean.Result result = ExtendedEuclidean.extendedGcd(x, y);
                 assertEquals(x.gcd(y), result.gcd);
                 assertEquals(
                         result.gcd.abs(),
@@ -29,7 +29,7 @@ class ExtendedEuclidianTest {
         for (int i = 0; i < 100; i++) {
             BigInteger x = new BigInteger(1024, rng);
             BigInteger y = new BigInteger(1024, rng);
-            ExtendedEuclidian.Result result = ExtendedEuclidian.extendedGcd(x, y);
+            ExtendedEuclidean.Result result = ExtendedEuclidean.extendedGcd(x, y);
             assertEquals(x.gcd(y), result.gcd);
             assertEquals(
                     result.gcd.abs(),

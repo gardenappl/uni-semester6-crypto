@@ -4,8 +4,8 @@ import java.math.BigInteger;
 
 public class ModPowBinary {
     /**
-     * Convert e to binary notation: e = sum(a_i * 2_i), where a_i is a bit which is 0 or 1
-     * Then b^e = b^sum(a_i * 2_i) = product(b^(a_i * s_i))
+     * Convert e to binary notation: e = sum(a_i * 2^i), where a_i is a bit which is 0 or 1
+     * Then b^e = b^sum(a_i * 2^i) = product(b^(a_i * 2^i))
      * @param n base
      * @param exponent exponent
      * @param m modulus
@@ -24,7 +24,7 @@ public class ModPowBinary {
         BigInteger base = n.mod(m);
         BigInteger result = BigInteger.ONE;
         while (exponent.compareTo(BigInteger.ZERO) > 0) {
-            if (exponent.mod(BigInteger.TWO).equals(BigInteger.ONE))
+            if (exponent.testBit(0))
                 result = result.multiply(base).mod(m);
 
             exponent = exponent.shiftRight(1);

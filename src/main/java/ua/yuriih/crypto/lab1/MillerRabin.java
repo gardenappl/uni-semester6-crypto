@@ -29,9 +29,8 @@ public class MillerRabin {
         BigInteger d = nMinusOne;
         int s = 0;
         while (true) {
-            BigInteger[] quotientAndRemainder = d.divideAndRemainder(BigInteger.TWO);
-            if (quotientAndRemainder[1].equals(BigInteger.ZERO)) {
-                d = quotientAndRemainder[0];
+            if (!d.testBit(0)) {
+                d = d.shiftRight(1);
                 s++;
             } else {
                 break;
